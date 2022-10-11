@@ -1,36 +1,56 @@
 {
-  "users":[
+  "users": [
     {
-      "id":1,
+      "id": 1,
       "fname": "John",
       "email": "john@gmail.com"
     },
     {
-      "id":2,
+      "id": 2,
       "fname": "Doe",
       "email": "doe@gmail.com"
     },
     {
-      "id":3,
+      "id": 3,
       "fname": "Khan",
       "email": "khan@gmail.com"
+    },
+    {
+      "email": "khan@gmail.com",
+      "fname": "Khan",
+      "id": 4
+    },
+    {
+      "email": "khan@gmail.com",
+      "fname": "Khan",
+      "id": 5
+    },
+    {
+      "email": "khan@gmail.com",
+      "fname": "Khan",
+      "id": 6
+    },
+    {
+      "email": "khan@gmail.com",
+      "fname": "Khan",
+      "id": 7
     }
   ],
-  "companies":[
+  "companies": [
     {
-      "id":1,
-      "name":"Apple",
-      "desc":""
+      "id": 1,
+      "name": "Apple",
+      "desc": ""
     },
     {
-      "id":2,
-      "name":"MSFT",
-      "desc":""
+      "id": 2,
+      "name": "MSFT",
+      "desc": ""
     },
     {
-      "id":3,
-      "name":"META",
-      "desc":""
+      "id": 3,
+      "name": "META",
+      "desc": ""
     }
   ]
 }
