@@ -11,7 +11,7 @@ module.exports = async (req, res) =>{
       req.movies.push(body)
       writeToFile(req.movies)
       res.writeHead(201,{"Content-Type":"application/json"})
-      res.end()
+      res.end(JSON.stringify({"title":"Success","message":"Data Added"}))
     }
     catch(err){
       res.writeHead(400,{"Content-Type":"application/json"})
