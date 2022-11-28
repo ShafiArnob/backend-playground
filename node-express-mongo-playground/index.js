@@ -32,9 +32,9 @@ const insertStudent = async (db, collectionName, data) => {
   return result
 }
 // * Search student 
-const searchStudent = async (db, collectionName, data) => {
+const searchStudent = async (db, collectionName, query) => {
   const collection = db.collection(collectionName)
-  const result = await collection.insertOne(data)
+  const result = await collection.findOne(query)
   return result
 }
 const student = {
@@ -48,8 +48,10 @@ const main = async () =>{
     await client.connect()
     console.log("Connected to Mongo");
     const db = client.db('test')
-    const result = await insertStudent(db,"test",student)
-    console.log(result);
+    // const result = await insertStudent(db,"test",student)
+    // const result = await searchStudent(db,"test",{age:{$lt:40}})
+    const count = await db.collection('test').countDocuments()
+    console.log(count);
   }catch(err){
     console.log(err);
   }finally{
