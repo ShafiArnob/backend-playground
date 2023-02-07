@@ -1,5 +1,5 @@
 const {insertStudent, searchStudent, getStudentById, updateStudent, deleteStudentById} = require("./student.service")
-
+const print = console.log
 const setupRoutes = (app) => {
   console.log(`Setting up student routes`)
   app.get("/api/students/detail/:id", async(req, res)=>{
