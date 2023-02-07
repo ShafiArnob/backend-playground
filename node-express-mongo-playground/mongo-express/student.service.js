@@ -6,6 +6,7 @@ const insertStudent = async (document) => {
   return result
 }
 const searchStudent = async (searchObject) => {
+  
   const result = await getCollections().Student.find(searchObject).toArray()
   return result
 }
@@ -14,13 +15,23 @@ const getStudentById = async(id) => {
   return student
 }
 const updateStudent = async(id, document) => {
-  const db = await getDb()
-  const collection = db.collection("students")
+  const updatedDoc = await getCollections().Student.updateOne(
+    { _id: new ObjectId(id) },
+    { $set: { ...document } }
+  );
+  return updatedDoc;
 }
 const deleteStudentById = async(id) => {
-  const db = await getDb()
-  const collection = db.collection("students")
+  const deleted = await getCollections().Student.deleteOne({_id: new ObjectId(id),});
+  return deleted;
 
 }
+
 //export
-module.exports = {insertStudent, searchStudent, getStudentById}
+module.exports = {
+  insertStudent,
+  searchStudent,
+  getStudentById,
+  updateStudent,
+  deleteStudentById
+}
