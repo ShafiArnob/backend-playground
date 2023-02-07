@@ -7,7 +7,7 @@ const connect = async () =>{
   const client = new MongoClient("mongodb://localhost:27017",{
     useNewUrlParser:true
   })
-  console.log("Connecting to mongodb")
+  console.log("Connecting to mongodb") 
   await client.connect()
   _db = client.db("schooldb")
 }
