@@ -18,8 +18,14 @@ const getDb = async () =>{
   }
   return _db
 }
+const getCollections = () => {
+  return{
+    Student: _db.collection("students")
+  }
+}
 //export them
 module.exports = {
   connect,
-  getDb
+  getDb,
+  getCollections
 }
