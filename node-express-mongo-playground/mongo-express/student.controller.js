@@ -15,6 +15,9 @@ const setupRoutes = (app) => {
   app.post("/api/students/create", async(req, res)=>{
     print("POST /api/students/create", req.body)
     const result = await insertStudent(req.body)
+    if(result instanceof Error){
+      res.status(400).json(JSON.parse(result.message))
+    }
     res.send(result)
   })
   

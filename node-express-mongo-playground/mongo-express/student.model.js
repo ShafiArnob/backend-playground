@@ -4,26 +4,27 @@ const getCollection = () => {
   console.log(`creating student collection`)
   const db = getDb()
   const collection = db.collection("students", {
-    validator:{
-      $jsonSchema:{
-        bsonType:"object",
-        required:["name", "phone", "age", "city"],
+    validator: {
+      $jsonSchema: {
+        title:"Student object validation",
+        bsonType: "object",
+        required: ["name", "phone", "age", "city"],
         properties: {
-          name:{
+          name: {
             bsonType:"string",
             description:"must be a string and is Required"
           },
-          phone:{
+          phone: {
             bsonType:"string",
             description:"must be a string and is Required"
           },
-          age:{
+          age: {
             bsonType:"int",
             minimum:0,
             maximum:200,
             description:"must be a integer in [0, 200] and is required"
           },
-          city:{
+          city: {
             // only can give the values below
             enum:["Dhaka", "Khulna", "Sylhet", "Chandpur"],
             description:"can only be one of the enum values"
