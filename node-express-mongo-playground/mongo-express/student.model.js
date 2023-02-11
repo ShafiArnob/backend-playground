@@ -1,4 +1,5 @@
 const {getDb} = require('./mongo')
+const {BANGLADESH_CITIES} = require('./constant')
 // collection schema
 const getCollection = () => {
   console.log(`creating student collection`)
@@ -26,7 +27,7 @@ const getCollection = () => {
           },
           city: {
             // only can give the values below
-            enum:["Dhaka", "Khulna", "Sylhet", "Chandpur"],
+            enum:BANGLADESH_CITIES,
             description:"can only be one of the enum values"
           },
         },

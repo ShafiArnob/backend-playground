@@ -1,5 +1,7 @@
 const {insertStudent, searchStudent, getStudentById, updateStudent, deleteStudentById} = require("./student.service")
+const {validate} = require('./student.request')
 const print = console.log
+
 const setupRoutes = (app) => {
   console.log(`Setting up student routes`)
   app.get("/api/students/detail/:id", async(req, res)=>{
@@ -14,11 +16,15 @@ const setupRoutes = (app) => {
   })
   app.post("/api/students/create", async(req, res)=>{
     print("POST /api/students/create", req.body)
-    const result = await insertStudent(req.body)
-    if(result instanceof Error){
-      res.status(400).json(JSON.parse(result.message))
+    const validationResult = validate(req.body)
+    if(!validationResult.error){
+      const result = await insertStudent(req.body)
+      if(result instanceof Error){
+        res.status(400).json(JSON.parse(result.message))
+      }
+      return res.json(result)
     }
-    res.send(result)
+    return res.status(400).json({status:"error", message:validationResult.error})
   })
   
   app.put("/api/students/update/:id", async(req, res)=>{

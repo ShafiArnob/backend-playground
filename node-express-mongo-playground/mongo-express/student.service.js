@@ -4,7 +4,6 @@ const {Student} = require("./student.model")
 //CRUD methods
 const insertStudent = async (document) => {
   try{
-
     const result = await Student.insertOne(document)
     return result
   }catch(error){
@@ -60,7 +59,7 @@ const deleteStudentById = async(id) => {
     const deleted = await Student.deleteOne({_id: new ObjectId(id),});
   return deleted;
   }catch(error){
-    return error
+    return error 
   }
 
 }
