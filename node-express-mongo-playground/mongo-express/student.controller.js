@@ -21,6 +21,7 @@ const setupRoutes = (app) => {
       const result = await insertStudent(req.body)
       if(result instanceof Error){
         res.status(400).json(JSON.parse(result.message))
+        return
       }
       return res.json(result)
     }
@@ -29,14 +30,29 @@ const setupRoutes = (app) => {
   
   app.put("/api/students/update/:id", async(req, res)=>{
     print("PUT /api/students/:id", req.params.id)
-    const updated = await updateStudent(req.params.id,req.body)
-    res.send(updated)
+    const validationResult = validate(req.body)
+    if(!validationResult.error){
+      const result = await updateStudent(req.params.id,req.body)
+      if(result instanceof Error){
+        res.status(400).json(JSON.parse(result.message))
+        return
+      }
+      return res.json(result)
+    }
+    return res.status(400).json({status:"error", message:validationResult.error})
   })
   
   app.delete("/api/students/delete/:id", async(req, res)=>{
     print("DELETE /api/students/:id", req.params.id)
-    const result = await deleteStudentById(req.params.id)
-    res.send(result)
+    if(req.params.id){
+      const result = await deleteStudentById(req.params.id)
+      if(result instanceof Error){
+        res.status(400).json(JSON.parse(result.message))
+        return
+      }
+      return res.json(result)
+    }
+    return res.status(400).json({status:"error", message:"Id required"})
   })
 }
 

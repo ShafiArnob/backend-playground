@@ -39,6 +39,7 @@ const getStudentById = async(id) => {
     const student = await Student.findOne({_id:new ObjectId(id)})
     return student
   }catch(error){
+    console.error(error)
     return error
   }
 }
@@ -51,6 +52,7 @@ const updateStudent = async(id, document) => {
     return updatedDoc;
   }
   catch(error){
+    console.error(error)
     return error
   }
 }
@@ -59,6 +61,7 @@ const deleteStudentById = async(id) => {
     const deleted = await Student.deleteOne({_id: new ObjectId(id),});
   return deleted;
   }catch(error){
+    console.error(error)
     return error 
   }
 
