@@ -32,14 +32,37 @@ const updateSchema = async(db) => {
   const collections = await db.listCollections({name:"students"}).toArray()
   if(collections.length === 0){
     console.log("creating Students");
-    db.createCollection("students",{validator})
+    await db.createCollection("students",{validator})
   }else{
     console.log("Updating Students");
-    db.command({
+    await db.command({
       collMod:"students",
       validator
     })
   }
+
+  await db.command({
+    createIndexes: "students",
+    indexes: [
+      {
+        key:{name:-1},
+        name: "custom_name_index"
+      },
+      {
+        key:{name:"text"},
+        name:"custom_text_index"
+      },
+      {
+        key:{phone:1},
+        name:"custom_phone_index",
+        // unique:true
+      },
+      {
+        key:{city:1},
+        name:"custom_city_index"
+      },
+    ]
+  })
 }
 
 module.exports = {
