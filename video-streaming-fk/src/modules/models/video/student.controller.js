@@ -1,5 +1,9 @@
 const {insertStudent, searchStudent, getStudentById, updateStudent, deleteStudentById} = require("./student.service")
 const {validate} = require('./student.request')
+const {name} = require('./student.model')
+
+const BASE_URL = `/api/${name}`
+
 const print = console.log
 
 const setupRoutes = (app) => {
@@ -54,6 +58,8 @@ const setupRoutes = (app) => {
     }
     return res.status(400).json({status:"error", message:"Id required"})
   })
+
+  app.post
 }
 
 module.exports = {setupRoutes}

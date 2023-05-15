@@ -1,5 +1,6 @@
 const {getDb} = require('../../db/mongo')
 
+const collectionName = "videos";
 
 const getCollection = () => {
   console.log(`Get student collection`)
@@ -10,5 +11,6 @@ const getCollection = () => {
 }
 
 module.exports = {
-  Student:getCollection()
+  Student:getCollection(),
+  name: collectionName,
 }
