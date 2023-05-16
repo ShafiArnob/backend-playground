@@ -13,3 +13,11 @@ export const getUsersFromDB = async()=>{
   const users = await User.find()
   return users
 }
+//get single user
+export const getUserByIdFromDB = async(payload:string)=>{
+  const user = await User.findOne({id:payload},{
+    name:1,
+    contactNo:1
+  })
+  return user
+}
