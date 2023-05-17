@@ -1,6 +1,7 @@
 import { Model, Schema, model } from "mongoose";
 import { IUser, IUserMethods, UserModel } from "./user.interface";
 
+// used when we only used instance method
 // type UserModel = Model<IUser, {}, IUserMethods>
 
 //step 2 - Schema
