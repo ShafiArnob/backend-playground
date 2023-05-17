@@ -1,7 +1,7 @@
 # Mongoose Practice Queries
 <!-- ctrl + shift + v -->
-### $eq, $ne, $gt, $gte, $lt, $lte
-### Field Filtering, Field Filtering with Projection, Sorting
+## $eq, $ne, $gt, $gte, $lt, $lte
+## Field Filtering, Field Filtering with Projection, Sorting
 ```
 // basic find
 db.practice.find({ gender : "Female" })
@@ -32,4 +32,33 @@ db.practice.find({age:{$gte:18}})
 
 //$gte with Sorting - Ascending 1, Descending -1
 db.practice.find({age:{$gte:18}}).sort({ age:-1 })
+```
+
+
+## $in, $nin
+## Nested Condition, Implicit AND
+```
+// Range of values, Implicit AND (,)
+db.practice.find({age:{$gte:18, $lt:30}})
+
+// $in , Fixed Values
+db.practice.find({age:{ $in:[18, 23]}})
+
+// Implicit AND Multiple Condition
+db.practice.find({gender:"Female",age:{ $in:[18, 23]}})
+
+//$nin
+db.practice.find({gender:"Female",age:{ $nin:[18, 23]}})
+```
+**Q: Find Female whos age is not 18 or 23 and interested in Gaming and Cooking and Show only Gender, Age , Interests**
+```
+db.practice.find({
+    gender:"Female",
+    age:{ $nin:[18, 23]},
+    interests:{$in: ['Gaming', "Cooking"]}
+}).project({
+    gender:1,
+    age:1,
+    interests:1
+})
 ```
