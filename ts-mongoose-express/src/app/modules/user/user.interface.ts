@@ -1,3 +1,5 @@
+import { HydratedDocument, Model } from "mongoose";
+
 export interface IUser {
   id: string;
   role: "student";
@@ -16,6 +18,18 @@ export interface IUser {
   permanentAddress: string;
 }
 
+//instance method
 export interface IUserMethods{
   fullName():string
 }
+
+
+/*
+  static method 
+  -> Its why we have used static and instance method at the same time 
+  -> read Mongo Docs
+*/
+export interface UserModel extends Model<IUser, {}, IUserMethods>{
+  getAdminUsers():Promise<HydratedDocument<IUser, IUserMethods>>
+}
+

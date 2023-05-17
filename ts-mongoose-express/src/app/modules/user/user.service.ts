@@ -23,3 +23,8 @@ export const getUserByIdFromDB = async(payload:string)=>{
   })
   return user
 }
+// for Static method
+export const getAdminUsersFromDB = async()=>{
+  const admins = await User.getAdminUsers()
+  return admins
+}
