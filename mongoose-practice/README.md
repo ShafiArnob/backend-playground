@@ -34,7 +34,6 @@ db.practice.find({age:{$gte:18}})
 db.practice.find({age:{$gte:18}}).sort({ age:-1 })
 ```
 
-
 ## $in, $nin
 ## Nested Condition, Implicit AND
 ```
@@ -50,6 +49,7 @@ db.practice.find({gender:"Female",age:{ $in:[18, 23]}})
 //$nin
 db.practice.find({gender:"Female",age:{ $nin:[18, 23]}})
 ```
+#### **NOTE:** You cannot use implicit and in same field. It does not work.
 **Q: Find Female whos age is not 18 or 23 and interested in Gaming and Cooking and Show only Gender, Age , Interests**
 ```
 db.practice.find({
@@ -62,3 +62,47 @@ db.practice.find({
     interests:1
 })
 ```
+---
+## **Logical Query Operator**
+## $and, $or
+Q: Find Someone whos gender Female, age less than 30, has skill JAVASCRIPT using Explicit **$and**
+```
+db.practice.find({
+    $and:[
+        {gender:"Female"},
+        {age: {$lt: 30}},
+        {"skills.name":"JAVASCRIPT"}
+    ]
+})
+```
+Q: Find Someone who has skills JAVASCRIPT or PYTHON using **$or**
+```
+db.practice.find({
+    $or:[
+        {"skills.name":"PYTHON"},
+        {"skills.name":"JAVASCRIPT"}
+    ]
+})
+```
+**Implicit vs Explicit :**
+You cannot use Implicit AND (,) in the same field it does not work. You can use Explicit AND ($and) in the same field
+```
+//Implicit AND
+// Here it also shows 18 age. Does not work
+db.practice.find({
+    age: {$ne: 18},
+    age: {$gt: 15}
+})
+
+// Explicit AND
+//Works!!
+db.practice.find({
+    $and:[
+        {age: {$ne: 18}},
+        {age: {$gt: 15}}
+    ]
+})
+```
+
+#### **NOTE:** $not, $nor do it youself
+---
