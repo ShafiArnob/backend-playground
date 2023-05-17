@@ -6,6 +6,8 @@ export const createUserToDB = async(payload:IUser) =>{
 
   await user.save()
 
+  console.log(user.fullName());
+  
   return user
 }
 

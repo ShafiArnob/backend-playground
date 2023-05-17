@@ -29,7 +29,7 @@ export const createUser = async(req:Request, res:Response, next:NextFunction) =>
     })
   }catch(err){
     console.log(err);
-    res.status(400).json({
+    res.status(404).json({
       status:"error"
     })
   }
