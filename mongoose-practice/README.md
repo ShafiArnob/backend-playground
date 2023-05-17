@@ -106,3 +106,24 @@ db.practice.find({
 
 #### **NOTE:** $not, $nor do it youself
 ---
+## $exists - field exists or not
+```
+// true if field exists, false if does not
+// Here finds all the rows if phone field exists 
+db.practice.find({phone:{$exists: true}})
+```
+
+## $type - field type
+Q: Give me such document where the age field is 'int'
+```
+db.practice.find({age:{$type: "int"}})
+```
+Q: Give me such document where the friends field is 'array'
+```
+db.practice.find({friends:{$type: "array"}})
+```
+## $size - field array size
+Q: Give me such document where there is only one skill
+```
+db.practice.find({skills:{$size: 1}})
+```
