@@ -138,7 +138,7 @@ Q: Give me all the interest where the "Travelling", "Cooking", "Reading" is in t
 db.practice.find({"interests":[ "Travelling", "Reading", "Cooking" ]})
 //Here the query maintains order of those items 
 ```
-## $all
+## $all - Matches inside array regardless of order
 ### Q: 
 1. Give me all the interest where the "Travelling", "Cooking", "Reading" is in the array **regardless of order**
 2. and convert it to $and
@@ -147,6 +147,7 @@ db.practice.find({
     "interests":{$all:[ "Travelling", "Reading", "Cooking" ]}
 })
 ```
+
 ```
 db.practice.find({
     $and:[
@@ -164,3 +165,79 @@ db.practice.find({
     skills:{$elemMatch: {name:"JAVASCRIPT", level:"Intermidiate"}}
 })
 ```
+---
+## update
+```
+db.<collectionName>.updateOne(
+  {<who you want to update (query)>},
+  {<what you want to update>},
+  {<options>}
+)
+```
+---
+## $set - Update Field or Value
+```
+// Add Field to Data
+db.practice.updateOne(
+    {"_id" : ObjectId("6406ad65fc13ae5a400000c6")},
+    {
+        $set:{
+            country:"Bangladesh"
+        }
+    }
+)
+
+// Update Existing Field Value
+db.practice.updateOne(
+    {"_id" : ObjectId("6406ad65fc13ae5a400000c6")},
+    {
+        $set:{
+            interests: ["Drawing"]
+        }
+    }
+)
+
+```
+**NOTE:** 
+1. For Existing Field We can Update - Primitive Type
+2. For Non-Primitive Type It Replaces it
+
+## $addToSet - update value of some field
+```
+// adds to value //here array
+db.practice.updateOne(
+    {"_id" : ObjectId("6406ad65fc13ae5a400000c6")},
+    {
+        $addToSet:{
+            interests: "Reading"
+        }
+    }
+)
+
+// adds multiple value to some existing array using $each
+db.practice.updateOne(
+    {"_id" : ObjectId("6406ad65fc13ae5a400000c6")},
+    {
+        $addToSet:{
+            interests: {$each: ["Cooking", "Writing"]}
+        }
+    }
+)
+```
+**NOTE:** It does not modify if the value already exists.
+
+## $push - pushes data to array
+```
+db.practice.updateOne(
+    {"_id" : ObjectId("6406ad65fc13ae5a400000c6")},
+    {
+        $push:{
+            interests: {$each: ["Cooking", "Writing"]}
+        }
+    }
+)
+```
+## **$set VS $addToSet VS $push**
+* $set is used when you want to add a field or update a primitive type value
+* $addToSet is used to add data to array where you dont duplicate entry
+* $push is used to add data to array where duplicate entry is accepted
