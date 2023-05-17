@@ -127,3 +127,40 @@ Q: Give me such document where there is only one skill
 ```
 db.practice.find({skills:{$size: 1}})
 ```
+---
+Q: Give me all the interest where the "Travelling" is in the index 0 of the array
+```
+db.practice.find({"interests.0":"Travelling"})
+
+```
+Q: Give me all the interest where the "Travelling", "Cooking", "Reading" is in the array
+```
+db.practice.find({"interests":[ "Travelling", "Reading", "Cooking" ]})
+//Here the query maintains order of those items 
+```
+## $all
+### Q: 
+1. Give me all the interest where the "Travelling", "Cooking", "Reading" is in the array **regardless of order**
+2. and convert it to $and
+```
+db.practice.find({
+    "interests":{$all:[ "Travelling", "Reading", "Cooking" ]}
+})
+```
+```
+db.practice.find({
+    $and:[
+        {interests:"Cooking"},
+        {interests:"Travelling"},
+        {interests:"Reading"},
+    ]
+}).project({interests:1})
+```
+**NOTE:** $all is equivalent to $and
+## $elemMatch
+Q: Find skills JAVASCRIPT and Level "Intermediate"
+```
+db.practice.find({
+    skills:{$elemMatch: {name:"JAVASCRIPT", level:"Intermidiate"}}
+})
+```
