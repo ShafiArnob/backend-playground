@@ -241,3 +241,60 @@ db.practice.updateOne(
 * $set is used when you want to add a field or update a primitive type value
 * $addToSet is used to add data to array where you dont duplicate entry
 * $push is used to add data to array where duplicate entry is accepted
+
+---
+
+## $unset - remove field
+```
+//remove the field "country"
+db.practice.updateOne(
+    {"_id" : ObjectId("6406ad65fc13ae5a400000c6")},
+    {
+        $unset:{country:""}
+    }
+)
+```
+
+## $pop - remove last or first element of any array field value
+```
+// Removes the last element from "languages"
+db.practice.updateOne(
+    {"_id" : ObjectId("6406ad65fc13ae5a400000c6")},
+    {
+        $pop:{languages:1}
+    }
+)
+```
+**NOTE:** To remove the 1st one use -1
+## $pull - Remove specific single value from array
+```
+// Removes "Shafi" from "friends" field
+db.practice.updateOne(
+    {"_id" : ObjectId("6406ad65fc13ae5a400000c6")},
+    {
+        $pull:{friends:"Shafi"}
+    }
+)
+```
+
+## $pullAll - Remove specific multiple value from array
+```
+// Removes "Shafi" and "Arnob from "friends" field
+db.practice.updateOne(
+    {"_id" : ObjectId("6406ad65fc13ae5a400000c6")},
+    {
+        $pullAll:{friends:["Shafi", "Arnob"]}
+    }
+)
+
+// Update from multiple document
+// Removes "Shafi" and "Arnob" from "friends" field
+db.practice.updateOne(
+    {},
+    {
+        $pullAll:{friends:["Shafi", "Arnob"]}
+    }
+)
+//here "Shafi" and "Arnob" is removed from all the documents
+```
+
