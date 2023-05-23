@@ -288,8 +288,8 @@ db.practice.updateOne(
 )
 
 // Update from multiple document
-// Removes "Shafi" and "Arnob" from "friends" field
-db.practice.updateOne(
+// Removes "Shafi" and "Arnob" from all "friends" field
+db.practice.updateMany(
     {},
     {
         $pullAll:{friends:["Shafi", "Arnob"]}
@@ -310,5 +310,32 @@ db.test.drop()
 ```
 // delete single doc
 db.practice.deleteOne({< query >})
+```
 
+---
+## $inc
+```
+//increment age by 2
+db.practice.updateOne(
+    {"_id" : ObjectId("6406ad65fc13ae5a400000c6")},
+    {
+        $inc:{age:2}
+    }
+)
+```
+**NOTE:** For decrement use negetive value
+## $min
+```
+
+```
+
+## $rename - Rename fields
+```
+// rename favoutiteColor -> favouriteColor
+db.practice.updateMany(
+    {},
+    {
+        $rename:{"favoutiteColor", "favouriteColor"}
+    }
+)
 ```
