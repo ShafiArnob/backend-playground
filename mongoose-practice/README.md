@@ -297,4 +297,18 @@ db.practice.updateOne(
 )
 //here "Shafi" and "Arnob" is removed from all the documents
 ```
+---
+## Create & Delete Collection
+```
+//create
+db.createCollection("test)
 
+//delete - here drops the test collection
+db.test.drop()
+```
+## Delete
+```
+// delete single doc
+db.practice.deleteOne({< query >})
+
+```
