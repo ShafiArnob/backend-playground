@@ -34,6 +34,8 @@ def index(request):
 def person(request):
   if request.method == "GET":
     # get all the data from DB
+    # if we want to show the persons whose color is not null
+    # Person.objects.filter(color__isnull=False)
     objs = Person.objects.all()
     # convert them to JSON
     # many=True bc there are multiple data
