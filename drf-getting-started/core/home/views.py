@@ -2,6 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
+from rest_framework import status
 
 from home.models import Person
 from home.serializers import PeopleSerializers, LoginSerializer
@@ -157,4 +158,4 @@ class PeopleViewSet(viewsets.ModelViewSet):
     if search:
       queryset = queryset.filter(name__startswith=search)
     serializer = PeopleSerializers(queryset, many=True)
-    return Response({"status":200, "data":serializer.data})
+    return Response({"status":200, "data":serializer.data}, status=status.HTTP_200_OK)
