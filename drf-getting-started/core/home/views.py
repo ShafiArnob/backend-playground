@@ -7,6 +7,7 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
+from django.core.paginator import Paginator
 
 from home.models import Person
 from home.serializers import PeopleSerializers, LoginSerializer, RegisterSerializer
@@ -73,10 +74,24 @@ class PersonAPI(APIView):
   permission_classes = [IsAuthenticated]
   authentication_classes = [TokenAuthentication]
   def get(self, request):
-    print(request.user)
-    objs = Person.objects.all()
-    serializer = PeopleSerializers(objs, many=True)
-    return Response(serializer.data)
+    try:
+      print(request.user)
+      objs = Person.objects.all()
+      #pagination
+      page = request.GET.get("page", 1)
+      page_size = 3
+      paginator = Paginator(objs, page_size)
+      print(paginator.page(page))
+
+
+      serializer = PeopleSerializers(paginator.page(page), many=True)
+      return Response(serializer.data)
+    
+    except Exception as e:
+      return Response({
+        "status":False,
+        "message":"invalid page"
+      })
 
   def post(self, request):
     data = request.data
