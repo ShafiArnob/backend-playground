@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Person, Color
 
+# serializer with custom functionality
 class LoginSerializer(serializers.Serializer):
   email = serializers.EmailField()
   password = serializers.CharField()
@@ -34,8 +35,9 @@ class PeopleSerializers(serializers.ModelSerializer):
 
   # data validation
   def validate(self, data):
-    if data['age'] < 18 :
-      raise serializers.ValidationError("Age Should Be greater than 18")
+    
+    # if data['age'] < 18 :
+    #   raise serializers.ValidationError("Age Should Be greater than 18")
     
     special_chars = "!@#$%^&*()<>_+-=?|`~"
     

@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from home.models import Person
 from home.serializers import PeopleSerializers, LoginSerializer
@@ -14,6 +15,45 @@ def login(request):
     print(data)
     return Response({"message":"success"})
   return Response(serializer.errors)
+
+# APIView class
+class PersonAPI(APIView):
+  def get(self, request):
+    objs = Person.objects.all()
+    serializer = PeopleSerializers(objs, many=True)
+    return Response(serializer.data)
+
+  def post(self, request):
+    data = request.data
+    serializer = PeopleSerializers(data=data)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data)
+    return Response(serializer.errors)
+  
+  def put(self, request):
+    data = request.data
+    serializer = PeopleSerializers(data=data)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data)
+    return Response(serializer.errors)
+
+  def patch(self, request):
+    data = request.data
+    obj = Person.objects.get(id=data['id'])
+    serializer = PeopleSerializers(obj, data=data, partial=True)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data)
+    return Response(serializer.errors)
+
+  def delete(self, request):
+    data = request.data
+    obj = Person.objects.get(id=data["id"])
+    obj.delete()
+    return Response({"message":"person deleted"})
+
 @api_view(["GET", "POST", "PUT"]) # for http methods
 def index(request):
   courses = {
@@ -50,6 +90,12 @@ def person(request):
     # convert them to JSON
     # many=True bc there are multiple data
     serializer = PeopleSerializers(objs, many=True)
+
+    serializer_context = {
+      "request" : (request)
+    }
+    context = serializer_context
+
     return Response(serializer.data)
   
   elif request.method == "POST":
