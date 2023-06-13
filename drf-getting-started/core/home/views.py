@@ -4,9 +4,26 @@ from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework import status
 
-from home.models import Person
-from home.serializers import PeopleSerializers, LoginSerializer
+from django.contrib.auth.models import User
 
+from home.models import Person
+from home.serializers import PeopleSerializers, LoginSerializer, RegisterSerializer
+
+class RegisterAPI(APIView):
+  def post(self, request):
+    data = request.data
+    serializer = RegisterSerializer(data=data)
+
+    if not serializer.is_valid():
+      return Response({
+        "status":False,
+        "message":serializer.errors
+      }, status.HTTP_400_BAD_REQUEST)
+
+    serializer.save()
+
+    return Response({"status":True, "message":"User Created"}, status.HTTP_201_CREATED)
+  
 @api_view(['POST'])
 def login(request):
   data = request.data
