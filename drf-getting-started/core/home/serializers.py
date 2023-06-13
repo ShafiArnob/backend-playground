@@ -23,12 +23,12 @@ class RegisterSerializer(serializers.Serializer):
       email = validated_data["email"]
       )
     user.set_password(validated_data["password"])
-
+    user.save()
     return validated_data
 
 # serializer with custom functionality
 class LoginSerializer(serializers.Serializer):
-  email = serializers.EmailField()
+  username = serializers.CharField()
   password = serializers.CharField()
 
 class ColorSerializers(serializers.ModelSerializer):
