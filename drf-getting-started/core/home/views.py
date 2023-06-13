@@ -2,8 +2,18 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from home.models import Person
-from home.serializers import PeopleSerializers
+from home.serializers import PeopleSerializers, LoginSerializer
 
+@api_view(['POST'])
+def login(request):
+  data = request.data
+  serializer = LoginSerializer(data=data)
+
+  if serializer.is_valid():
+    data = serializer.data
+    print(data)
+    return Response({"message":"success"})
+  return Response(serializer.errors)
 @api_view(["GET", "POST", "PUT"]) # for http methods
 def index(request):
   courses = {
