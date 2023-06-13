@@ -5,6 +5,8 @@ from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 
 from home.models import Person
 from home.serializers import PeopleSerializers, LoginSerializer, RegisterSerializer
@@ -67,7 +69,11 @@ def login(request):
 
 # APIView class
 class PersonAPI(APIView):
+  # For authentication token varification
+  permission_classes = [IsAuthenticated]
+  authentication_classes = [TokenAuthentication]
   def get(self, request):
+    print(request.user)
     objs = Person.objects.all()
     serializer = PeopleSerializers(objs, many=True)
     return Response(serializer.data)
