@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import viewsets
 
 from home.models import Person
 from home.serializers import PeopleSerializers, LoginSerializer
@@ -80,8 +81,10 @@ def index(request):
     print("PUT Method")
     return Response(courses)
 
+# API Decorator
 @api_view(['GET', 'POST', "PUT", "PATCH", "DELETE"])
 def person(request):
+
   if request.method == "GET":
     # get all the data from DB
     # if we want to show the persons whose color is not null
@@ -142,3 +145,16 @@ def person(request):
     obj = Person.objects.get(id=data["id"])
     obj.delete()
     return Response({"message":"person deleted"})
+  
+#modelviewset 
+class PeopleViewSet(viewsets.ModelViewSet):
+  serializer_class = PeopleSerializers
+  queryset = Person.objects.all()
+
+  def list(self, request):
+    search = request.GET.get("search")
+    queryset = self.queryset
+    if search:
+      queryset = queryset.filter(name__startswith=search)
+    serializer = PeopleSerializers(queryset, many=True)
+    return Response({"status":200, "data":serializer.data})
