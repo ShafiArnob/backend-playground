@@ -12,6 +12,47 @@ class ServerListViewSet(viewsets.ViewSet):
   queryset = Server.objects.all()
 
   def list(self, request):
+    """
+    Retrieves a list of servers based on the provided query parameters.
+
+    Args:
+        request (Request): The HTTP request object.
+
+    Raises:
+        AuthenticationFailed: If the user is not authenticated and attempting
+            user-specific queries.
+
+        ValidationError: If the server ID is provided but no server with the
+            given ID is found, or if an invalid value is provided.
+
+    Returns:
+        Response: The HTTP response object containing the serialized server data.
+
+    Query Parameters:
+        - category (str): Filter servers by category name. Only servers with the matching
+            category name will be included in the response.
+
+        - qty (int): Limit the number of servers returned. Only the specified number of
+            servers will be included in the response. The servers are ordered by default
+            based on their internal ordering.
+
+        - by_user (bool): Filter servers by the currently authenticated user. If set to
+            True, only the servers where the current user is a member will be included
+            in the response.
+
+        - by_serverid (int): Filter servers by server ID. If provided, only the server
+            with the matching ID will be included in the response.
+
+        - with_num_members (bool): Include the count of members in the server data. If set
+            to True, each server object in the response will include an additional field
+            'num_members' indicating the total number of members in the server.
+    Note:
+        - The query parameters can be used individually or in combination to perform
+          complex filtering and retrieval of server data.
+
+        - The resulting server data is serialized using the ServerSerializer, which
+          provides a JSON representation of the server objects.
+    """
     # Get query parameters
     category = request.query_params.get("category")
     qty = request.query_params.get("qty")
