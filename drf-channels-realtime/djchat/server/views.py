@@ -6,14 +6,15 @@ from django.db.models import Count
 
 from .serializer import ServerSerializer
 from .models import Server
+from .schema import server_list_docs
 
 class ServerListViewSet(viewsets.ViewSet):
   # Set the queryset to include all Server objects
   queryset = Server.objects.all()
-
+  
+  @server_list_docs
   def list(self, request):
-    """
-    Retrieves a list of servers based on the provided query parameters.
+    """Retrieves a list of servers based on the provided query parameters.
 
     Args:
         request (Request): The HTTP request object.
@@ -61,9 +62,9 @@ class ServerListViewSet(viewsets.ViewSet):
     with_num_members = request.query_params.get("with_num_members") == "true"
 
     # Check authentication for user-specific queries
-    if by_user or by_serverid and not request.user.is_authenticated:
-      # Raise an AuthenticationFailed exception if user is not authenticated
-      raise AuthenticationFailed()
+    # if by_user or by_serverid and not request.user.is_authenticated:
+    #   # Raise an AuthenticationFailed exception if user is not authenticated
+    #   raise AuthenticationFailed()
 
     # Apply category filter if provided
     if category:
@@ -71,9 +72,12 @@ class ServerListViewSet(viewsets.ViewSet):
 
     # Apply user filter if requested
     if by_user:
-      user_id = request.user.id
-      self.queryset = self.queryset.filter(member=user_id)
-
+      if by_user and request.user.is_authenticated:
+        user_id = request.user.id
+        self.queryset = self.queryset.filter(member=user_id)
+      else:
+        raise AuthenticationFailed()
+      
     # Annotate the queryset with the number of members if requested
     if with_num_members:
       self.queryset = self.queryset.annotate(num_members=Count("member"))
@@ -84,6 +88,9 @@ class ServerListViewSet(viewsets.ViewSet):
 
     # Apply server ID filter if provided
     if by_serverid:
+      if not request.user.is_authenticated:
+        raise AuthenticationFailed()
+        
       try:
         self.queryset = self.queryset.filter(id=by_serverid)
         if not self.queryset:
