@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.shortcuts import get_object_or_404
-
+from django.dispatch import receiver
 
 def category_icon_upload_path(instance, filename):
   return f"category/{instance.id}/category_icon/{filename}"
@@ -23,6 +23,14 @@ class Category(models.Model):
         existing.icon.delete(save=False)
       super(Category, self).save(*args, **kwargs)
 
+  # if category is deleted file is also deleted
+  @receiver(models.signals.pre_delete, sender="server.Category")
+  def category_delete_files(sender, instance, **kwargs):
+    for field in instance._meta.fields:
+      if field.name == "icon":
+        file = getattr(instance, field.name)
+        if file: 
+          file.delete(save=False)
 
 class Server(models.Model):
   name = models.CharField(max_length=100)
