@@ -1,13 +1,28 @@
 from django.db import models
 from django.conf import settings
+from django.shortcuts import get_object_or_404
+
+
+def category_icon_upload_path(instance, filename):
+  return f"category/{instance.id}/category_icon/{filename}"
 
 # Create your models here.
 class Category(models.Model):
   name = models.CharField(max_length=100)
   description = models.TextField(blank=True, null=True)
+  icon = models.FileField(upload_to=category_icon_upload_path,null=True, blank=True)
 
   def __str__(self):
     return self.name
+
+  def save(self, *args, **kwargs):
+    # delete previous icon if new icon is added
+    if self.id:
+      existing = get_object_or_404(Category, id=self.id)
+      if existing.icon != self.icon:
+        existing.icon.delete(save=False)
+      super(Category, self).save(*args, **kwargs)
+
 
 class Server(models.Model):
   name = models.CharField(max_length=100)
