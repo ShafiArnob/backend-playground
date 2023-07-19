@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     #external
     'drf_spectacular',
+    "corsheaders",
     "rest_framework",
     #internal
     "server",
@@ -48,6 +49,7 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -139,3 +141,7 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': True,
     # OTHER SETTINGS
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:5173",
+]
