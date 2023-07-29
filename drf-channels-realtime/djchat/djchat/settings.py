@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     "rest_framework",
     #internal
     "server",
-    "account"
+    "account",
+    "webchat"
 ]
 
 REST_FRAMEWORK = {
