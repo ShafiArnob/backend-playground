@@ -1,8 +1,16 @@
-import express, { Application } from 'express'
-const app : Application = express()
-const PORT = 3000
+import express, { Application, Request, Response } from 'express'
+import cors from 'cors'
 
-app.get('/', (req, res) => {
+const app: Application = express()
+
+app.use(cors())
+
+//parsers
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+//testing
+app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!')
 })
 
