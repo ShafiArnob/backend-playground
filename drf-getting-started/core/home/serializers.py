@@ -2,6 +2,11 @@ from rest_framework import serializers
 from .models import Person, Color
 from django.contrib.auth.models import User
 
+class PersonSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Person
+    fields = ("color", "name", "age", "image")
+
 class RegisterSerializer(serializers.Serializer):
   username = serializers.CharField()
   email = serializers.CharField()

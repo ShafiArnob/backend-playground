@@ -2,15 +2,16 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
-from rest_framework import status
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.core.paginator import Paginator
+from rest_framework import status, permissions
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from home.models import Person
-from home.serializers import PeopleSerializers, LoginSerializer, RegisterSerializer
+from home.serializers import PeopleSerializers, LoginSerializer, RegisterSerializer, PersonSerializer
 
 class LoginAPI(APIView):
   def post(self, request):
@@ -227,3 +228,19 @@ class PeopleViewSet(viewsets.ModelViewSet):
       queryset = queryset.filter(name__startswith=search)
     serializer = PeopleSerializers(queryset, many=True)
     return Response({"status":200, "data":serializer.data}, status=status.HTTP_200_OK)
+  
+
+class CreatePerson(APIView):
+  # permission_classes = {permissions.IsAuthenticated}
+  parser_classes = [MultiPartParser, FormParser]
+
+  def post(self, request, format=None):
+    print(request.data)
+    serializer = PersonSerializer(data=request.data)
+    
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
