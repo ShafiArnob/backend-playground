@@ -5,6 +5,26 @@ const ImageUpload = () => {
   const [age, setAge] = useState("")
   const [image, setImage] = useState(null)
 
+  const handleImageChange = (e) =>{
+    const img = e.target.files[0]
+
+    if(img){
+      if(img.type === 'image/png' || img.type === 'image/jpeg' || img.type === 'image/jpg'){
+        if(img.size <= 1048576){
+          setImage(image)
+        }
+        else{
+          alert("More than 1MB")
+          e.target.value = null;
+        }
+      }
+      else{
+        alert("PNG, JPEG, JPG only")
+        e.target.value = null;
+      }
+    }
+  } 
+
   const handleSubmit = async(e) =>{
     e.preventDefault();
 
@@ -48,7 +68,7 @@ const ImageUpload = () => {
           </div>
           <div>
             <label htmlFor="image">Image:</label>
-            <input type="file" accept="image/*" name="image" onChange={(e)=>setImage(e.target.files[0])} />
+            <input type="file" id="image" accept="image/*" onChange={handleImageChange}/>
           </div>
           <button type="submit">Submit</button>
         </form>
