@@ -235,7 +235,7 @@ class CreatePerson(APIView):
   parser_classes = [MultiPartParser, FormParser]
 
   def post(self, request, format=None):
-    print(request.data["image"])
+    print(request.data)
     image = request.FILES["image"]
     image_name = image.name
 

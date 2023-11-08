@@ -6,13 +6,27 @@ const ImageUpload = () => {
   const [age, setAge] = useState("")
   const [image, setImage] = useState(null)
 
+  const loadImage = (e) => {
+    const img = e.target.files[0]
+    
+    if(img){
+      const reader = new FileReader()
+
+      reader.onload = e =>{
+        setImage(e.target.result)
+      }
+
+      reader.readAsDataURL(img)
+    }
+  }
+
   const handleImageChange = (e) =>{
     const img = e.target.files[0]
 
     if(img){
       if(img.type === 'image/png' || img.type === 'image/jpeg' || img.type === 'image/jpg'){
         if(img.size <= 1048576){
-          setImage(image)
+          loadImage(e)
         }
         else{
           alert("More than 1MB")
@@ -25,6 +39,26 @@ const ImageUpload = () => {
       }
     }
   } 
+
+  // const handleImageChange = (e) =>{
+  //   const img = e.target.files[0]
+
+  //   if(img){
+  //     if(img.type === 'image/png' || img.type === 'image/jpeg' || img.type === 'image/jpg'){
+  //       if(img.size <= 1048576){
+  //         setImage(img)
+  //       }
+  //       else{
+  //         alert("More than 1MB")
+  //         e.target.value = null;
+  //       }
+  //     }
+  //     else{
+  //       alert("PNG, JPEG, JPG only")
+  //       e.target.value = null;
+  //     }
+  //   }
+  // } 
 
   const handleSubmit = async(e) =>{
     e.preventDefault();
@@ -69,10 +103,10 @@ const ImageUpload = () => {
           </div>
           <div>
             <label htmlFor="image">Image:</label>
-            {/* <input type="file" id="image" accept="image/*" onChange={handleImageChange}/> */}
+            <input type="file" id="image" accept="image/*" onChange={handleImageChange}/>
             <AvatarEdit
-              // src={image} 
-              // setSrc={setImage}
+              src={image} 
+              setSrc={setImage}
             />
           </div>
           <button type="submit">Submit</button>
