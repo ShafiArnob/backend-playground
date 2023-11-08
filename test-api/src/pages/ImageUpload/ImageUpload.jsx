@@ -1,4 +1,5 @@
 import { useState } from "react"
+import AvatarEdit from "./AvatarEdit"
 
 const ImageUpload = () => {
   const [name, setName] = useState("")
@@ -68,7 +69,11 @@ const ImageUpload = () => {
           </div>
           <div>
             <label htmlFor="image">Image:</label>
-            <input type="file" id="image" accept="image/*" onChange={handleImageChange}/>
+            {/* <input type="file" id="image" accept="image/*" onChange={handleImageChange}/> */}
+            <AvatarEdit
+              // src={image} 
+              // setSrc={setImage}
+            />
           </div>
           <button type="submit">Submit</button>
         </form>
