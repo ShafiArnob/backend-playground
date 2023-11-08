@@ -235,11 +235,11 @@ class CreatePerson(APIView):
   parser_classes = [MultiPartParser, FormParser]
 
   def post(self, request, format=None):
-    print(request.data)
-    image = request.FILES["image"]
-    image_name = image.name
+    # print(request.data)
+    # image = request.FILES["image"]
+    # image_name = image.name
 
-    print(image, image_name)
+    # print(image, image_name)
 
     serializer = PersonSerializer(data=request.data)
     

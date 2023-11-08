@@ -68,6 +68,7 @@ const ImageUpload = () => {
     formData.append('age', age);
     formData.append('image', image);
 
+    console.log(formData);
     try {
       const response = await fetch('http://localhost:8000/api/person/create', {
         method: 'POST',

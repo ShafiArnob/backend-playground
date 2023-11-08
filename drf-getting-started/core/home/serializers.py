@@ -1,8 +1,23 @@
 from rest_framework import serializers
 from .models import Person, Color
 from django.contrib.auth.models import User
+from django.core.files.base import ContentFile
+import base64
+import uuid
 
+class Base64ImageField(serializers.ImageField):
+  def to_internal_value(self, data):
+    if data.startswith("data:image"):
+      # print(data)
+      # Extract the content type and base64 data from the string
+      format, imgstr = data.split(';base64,')
+      ext = format.split('/')[-1]
+      filename = f'{uuid.uuid4()}.{ext}'
+      data = ContentFile(base64.b64decode(imgstr), name=filename)
+    return super().to_internal_value(data)
+    
 class PersonSerializer(serializers.ModelSerializer):
+  image = Base64ImageField()
   class Meta:
     model = Person
     fields = ("color", "name", "age", "image")
