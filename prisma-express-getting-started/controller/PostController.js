@@ -2,7 +2,11 @@ import prisma from "../DB/db.config.js";
 
 //Fetch all posts
 const fetchAllPosts = async (req, res) => {
-  const posts = await prisma.post.findMany({});
+  const posts = await prisma.post.findMany({
+    orderBy: {
+      created_at: true,
+    },
+  });
 
   return res.status(200).json({ status: true, data: posts });
 };
