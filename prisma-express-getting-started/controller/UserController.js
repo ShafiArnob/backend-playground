@@ -1,10 +1,22 @@
 import prisma from "../DB/db.config.js";
 
 //Fetch all users
-const fetchUsers = async (req, res) => {
+const fetchAllUsers = async (req, res) => {
   const users = await prisma.user.findMany({});
 
   return res.status(200).json({ status: true, data: users });
+};
+
+//Show single user
+const fetchSingleUser = async (req, res) => {
+  const userId = req.params.id;
+  const user = await prisma.user.findFirst({
+    where: {
+      id: Number(userId),
+    },
+  });
+
+  return res.status(200).json({ status: true, data: user });
 };
 
 // Create User
@@ -56,4 +68,4 @@ const updateUser = async (req, res) => {
   return res.status(200).json({ status: true, message: "User updated" });
 };
 
-export { createUser, updateUser, fetchUsers };
+export { createUser, updateUser, fetchAllUsers, fetchSingleUser };
