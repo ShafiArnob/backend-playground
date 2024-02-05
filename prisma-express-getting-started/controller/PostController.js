@@ -95,6 +95,20 @@ const deleteSinglePost = async (req, res) => {
     .json({ status: true, message: "Post deleted successfully" });
 };
 
+// Search posts
+const searchPost = async (req, res) => {
+  const query = req.query.q;
+  const posts = await prisma.post.findMany({
+    where: {
+      description: {
+        search: query,
+      },
+    },
+  });
+
+  return res.status(200).json({ status: true, data: posts });
+};
+
 export {
   createPost,
   updatePost,
@@ -102,4 +116,5 @@ export {
   fetchPostsWithComments,
   fetchSinglePost,
   deleteSinglePost,
+  searchPost,
 };
