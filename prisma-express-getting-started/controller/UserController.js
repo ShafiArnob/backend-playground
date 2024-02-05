@@ -44,6 +44,33 @@ const fetchSingleUserWithPosts = async (req, res) => {
   return res.status(200).json({ status: true, data: user });
 };
 
+//Show single user with post and their number of posts
+const fetchSingleUserWithPostCount = async (req, res) => {
+  const userId = req.params.id;
+  const user = await prisma.user.findFirst({
+    where: {
+      id: Number(userId),
+    },
+    include: {
+      //to get the post
+      post: {
+        select: {
+          title: true,
+          comment_count: true,
+        },
+      },
+      //to get the number of post
+      _count: {
+        select: {
+          post: true,
+        },
+      },
+    },
+  });
+
+  return res.status(200).json({ status: true, data: user });
+};
+
 // Create User
 const createUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -113,4 +140,5 @@ export {
   fetchSingleUser,
   deleteSingleUser,
   fetchSingleUserWithPosts,
+  fetchSingleUserWithPostCount,
 };
