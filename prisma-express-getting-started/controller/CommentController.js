@@ -22,16 +22,16 @@ export const fetchSingleComment = async (req, res) => {
 export const createComment = async (req, res) => {
   const { user_id, post_id, comment } = req.body;
 
-  // await prisma.post.update({
-  //   where: {
-  //     id: Number(post_id),
-  //   },
-  //   data: {
-  //     comment_count: {
-  //       increment: 1,
-  //     },
-  //   },
-  // });
+  await prisma.post.update({
+    where: {
+      id: Number(post_id),
+    },
+    data: {
+      comment_count: {
+        increment: 1,
+      },
+    },
+  });
 
   const newComent = await prisma.comment.create({
     data: {
@@ -52,16 +52,16 @@ export const createComment = async (req, res) => {
 export const deleteComment = async (req, res) => {
   const commentId = req.params.id;
 
-  // await prisma.post.update({
-  //   where: {
-  //     id: Number(post_id),
-  //   },
-  //   data: {
-  //     comment_count: {
-  //       decrement: 1,
-  //     },
-  //   },
-  // });
+  await prisma.post.update({
+    where: {
+      id: Number(post_id),
+    },
+    data: {
+      comment_count: {
+        decrement: 1,
+      },
+    },
+  });
 
   await prisma.comment.delete({
     where: {

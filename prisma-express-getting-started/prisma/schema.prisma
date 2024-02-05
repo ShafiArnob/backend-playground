@@ -26,15 +26,17 @@ model Post {
   title String
   description String
   comment_count Int @default(0)
+  created_at DateTime @default(now())
   
+  comment Comment[]
   user_id Int
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
-  comment Comment[]
 }
 
 model Comment{
   id String @id @default(uuid())
+  comment    String
+  created_at DateTime @default(now())
 
   post_id Int
   user_id Int
