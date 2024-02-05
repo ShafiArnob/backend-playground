@@ -1,5 +1,12 @@
 import prisma from "../DB/db.config.js";
 
+//Fetch all users
+const fetchUsers = async (req, res) => {
+  const users = await prisma.user.findMany({});
+
+  return res.status(200).json({ status: true, data: users });
+};
+
 // Create User
 const createUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -49,4 +56,4 @@ const updateUser = async (req, res) => {
   return res.status(200).json({ status: true, message: "User updated" });
 };
 
-export { createUser, updateUser };
+export { createUser, updateUser, fetchUsers };

@@ -1,8 +1,13 @@
 import { Router } from "express";
-import { createUser, updateUser } from "../controller/UserController.js";
+import {
+  createUser,
+  updateUser,
+  fetchUsers,
+} from "../controller/UserController.js";
 
 const UserRoutes = Router();
 
+UserRoutes.get("/", fetchUsers);
 UserRoutes.post("/", createUser);
 UserRoutes.put("/:id", updateUser);
 
