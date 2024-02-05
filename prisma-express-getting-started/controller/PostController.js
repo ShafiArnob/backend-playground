@@ -21,25 +21,13 @@ const fetchSinglePost = async (req, res) => {
 
 // Create post
 const createPost = async (req, res) => {
-  const { name, email, password } = req.body;
-
-  const post = await prisma.post.findUnique({
-    where: {
-      email: email,
-    },
-  });
-
-  if (post) {
-    return res
-      .status(400)
-      .json({ status: false, message: "Email already taken" });
-  }
-
+  const { user_id, title, description } = req.body;
+  console.log(user_id);
   const newPost = await prisma.post.create({
     data: {
-      name: name,
-      email: email,
-      password: password,
+      user_id: Number(user_id),
+      title,
+      description,
     },
   });
 
@@ -73,7 +61,7 @@ const deleteSinglePost = async (req, res) => {
   const postId = req.params.id;
   const post = await prisma.post.delete({
     where: {
-      id: Number(post),
+      id: Number(postId),
     },
   });
 

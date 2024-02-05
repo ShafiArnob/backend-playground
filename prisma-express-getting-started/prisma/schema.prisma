@@ -25,7 +25,7 @@ model Post {
   id Int @id @default(autoincrement())
   title String
   description String
-  comment_count BigInt @default(0)
+  comment_count Int @default(0)
   
   user_id Int
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
