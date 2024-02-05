@@ -7,6 +7,27 @@ const fetchAllPosts = async (req, res) => {
   return res.status(200).json({ status: true, data: posts });
 };
 
+// fetch all posts with comment
+const fetchPostsWithComments = async (req, res) => {
+  console.error("Hello");
+  const posts = await prisma.post.findMany({
+    include: {
+      comment: {
+        include: {
+          user: {
+            select: {
+              name: true,
+              email: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return res.status(200).json({ status: true, data: posts });
+};
+
 //Show single post
 const fetchSinglePost = async (req, res) => {
   const postId = req.params.id;
@@ -74,6 +95,7 @@ export {
   createPost,
   updatePost,
   fetchAllPosts,
+  fetchPostsWithComments,
   fetchSinglePost,
   deleteSinglePost,
 };
