@@ -9,7 +9,10 @@ class ProfileController {
   }
   static async store(req, res) {}
   static async show(req, res) {}
-  static async update(req, res) {}
+  static async update(req, res) {
+    try {
+    } catch (e) {}
+  }
   static async destroy(req, res) {}
 }
 
