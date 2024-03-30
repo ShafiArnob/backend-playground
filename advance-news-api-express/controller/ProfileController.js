@@ -37,7 +37,7 @@ class ProfileController {
       // processing image name
       const imgExt = profile?.name.split(".");
       const newImageName = generateRandomNum() + "." + imgExt[1];
-      const uploadPath = process.cwd() + "/public/images" + newImageName;
+      const uploadPath = process.cwd() + "/public/images/" + newImageName;
 
       // if error uploading photo
       profile.mv(uploadPath, (err) => {

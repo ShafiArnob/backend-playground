@@ -2,15 +2,23 @@ import { Router } from "express";
 import AuthController from "../controller/AuthController.js";
 import ProfileController from "../controller/ProfileController.js";
 import authMiddleware from "../middleware/Authenticate.js";
+import NewsController from "../controller/NewsController.js";
 
 const router = Router();
 
-// auth routes
+//& Auth routes
 router.post("/auth/register", AuthController.register);
 router.post("/auth/login", AuthController.login);
 
-//profile routes
+//& Profile routes
 router.get("/profile", authMiddleware, ProfileController.index);
 router.put("/profile/:id", authMiddleware, ProfileController.update);
+
+//& News routes
+router.get("/news", NewsController.index);
+router.post("/news", authMiddleware, NewsController.store);
+router.post("/news/:id", authMiddleware, NewsController.show);
+router.patch("/news/:id", authMiddleware, NewsController.update);
+router.delete("/news/:id", authMiddleware, NewsController.destroy);
 
 export default router;
