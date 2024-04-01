@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 8000;
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static("public")); //serve image and data
 app.use(fileUpload());
 
 app.get("/", (req, res) => {

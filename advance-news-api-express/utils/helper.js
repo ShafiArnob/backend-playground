@@ -1,5 +1,6 @@
 import { supportedMimes } from "../config/filesystem.js";
 import { v4 as uuidv4 } from "uuid";
+import "dotenv/config";
 
 export const imageValidator = (size, mime) => {
   if (bytesToMb(size) > 2) {
@@ -17,4 +18,9 @@ export const bytesToMb = (bytes) => {
 
 export const generateRandomNum = () => {
   return uuidv4();
+};
+
+export const getImageUrl = (imgName) => {
+  console.log(process.env.APP_URL);
+  return `${process.env.APP_URL}/images/${imgName}`;
 };

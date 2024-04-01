@@ -1,12 +1,30 @@
 import { generateRandomNum, imageValidator } from "../utils/helper.js";
 import { newsSchema } from "../validations/newsValidation.js";
 import prisma from "../DB/db.config.js";
+import NewsApiTransform from "../transform/newsApiTransform.js";
 
 class NewsController {
   static async index(req, res) {
     try {
+      const news = await prisma.news.findMany({
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              profile: true,
+            },
+          },
+        },
+      });
+      console.log(news);
+      const newsTransform = news?.map((item) =>
+        NewsApiTransform.transform(item)
+      );
+
+      return res.status(200).json({ data: newsTransform });
     } catch (e) {
-      console.error();
+      console.error(e);
     }
   }
   static async store(req, res) {
@@ -51,7 +69,7 @@ class NewsController {
             user_id: user.id,
             title: data.title,
             content: data.content,
-            image: uploadPath,
+            image: newImageName,
           },
         });
 
