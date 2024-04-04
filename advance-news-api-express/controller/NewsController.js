@@ -1,4 +1,9 @@
-import { generateRandomNum, imageValidator } from "../utils/helper.js";
+import {
+  generateRandomNum,
+  imageValidator,
+  removeImage,
+  uploadImage,
+} from "../utils/helper.js";
 import { newsSchema } from "../validations/newsValidation.js";
 import prisma from "../DB/db.config.js";
 import NewsApiTransform from "../transform/newsApiTransform.js";
@@ -151,9 +156,72 @@ class NewsController {
     }
   }
   static async update(req, res) {
+    const { id } = req.params;
+    const user = req.user;
+    const body = req.body;
     try {
+      const news = await prisma.news.findUnique({
+        where: {
+          id: Number(id),
+        },
+      });
+
+      if (user.id !== news.user_id) {
+        return res.status(400).json({ message: "UnAtuhorized" });
+      }
+      const validatedData = await newsSchema.safeParse(body);
+      if (validatedData.success) {
+        const payload = validatedData.data;
+        const image = req?.files?.image;
+        if (image) {
+          const message = imageValidator(image?.size, image?.mimetype);
+          if (message !== null) {
+            return res.status(400).json({
+              errors: {
+                image: message,
+              },
+            });
+          }
+
+          //Upload new image
+          const imageName = uploadImage(image);
+          payload.image = imageName;
+          //Delete old image
+          removeImage(news.image);
+        }
+
+        const updatedNews = await prisma.news.update({
+          data: payload,
+          where: {
+            id: Number(id),
+          },
+        });
+
+        return res.status(200).json({
+          status: "success",
+          message: "News updated successfully!",
+          data: updatedNews,
+        });
+      } else {
+        // format the error and send the error
+        const validationErrors = validatedData.error.errors;
+        const formattedErrors = validationErrors.map((error) => ({
+          message: error.message,
+          field: error.path[0],
+        }));
+        console.error("Validation errors:", formattedErrors);
+        return res.status(400).json({
+          status: "failed",
+          message: "failed to validate data",
+          errors: formattedErrors,
+        });
+      }
     } catch (e) {
-      console.error();
+      console.error(e);
+      return res.status(500).json({
+        status: "failed",
+        message: "Something went wrong please try again",
+      });
     }
   }
   static async destroy(req, res) {

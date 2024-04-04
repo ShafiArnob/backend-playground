@@ -1,6 +1,7 @@
 import { supportedMimes } from "../config/filesystem.js";
 import { v4 as uuidv4 } from "uuid";
 import "dotenv/config";
+import fs from "fs";
 
 export const imageValidator = (size, mime) => {
   if (bytesToMb(size) > 2) {
@@ -23,4 +24,22 @@ export const generateRandomNum = () => {
 export const getImageUrl = (imgName) => {
   console.log(process.env.APP_URL);
   return `${process.env.APP_URL}/images/${imgName}`;
+};
+
+export const removeImage = (imageName) => {
+  const path = process.cwd() + "/public/images/" + imageName;
+  if (fs.existsSync(path)) {
+    fs.unlinkSync(path);
+  }
+};
+
+export const uploadImage = (image) => {
+  const imgExt = image?.name.split(".");
+  const imageName = generateRandomNum() + "." + imgExt[1];
+  const uploadPath = process.cwd() + "/public/images/" + imageName;
+  image.mv(uploadPath, (err) => {
+    if (err) throw err;
+  });
+
+  return imageName;
 };

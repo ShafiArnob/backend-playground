@@ -25,7 +25,7 @@ class ProfileController {
 
       //check file is right
       const profile = req.files.profile;
-      const message = imageValidator(profile?.size, profile.mimetype);
+      const message = imageValidator(profile?.size, profile.mimetype); //validate file and size
       if (message !== null) {
         return res.status(400).json({
           errors: {
