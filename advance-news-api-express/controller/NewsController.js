@@ -226,8 +226,36 @@ class NewsController {
   }
   static async destroy(req, res) {
     try {
-    } catch (e) {
-      console.error();
+      const { id } = req.params;
+      const user = req.user;
+
+      const news = await prisma.news.findUnique({
+        where: {
+          id: Number(id),
+        },
+      });
+
+      // check uf user of the req and news user is same
+      if (user.id !== news?.user_id) {
+        return res.status(401).json({ message: "Un Authorized" });
+      }
+
+      // Delete image from filesystem
+      removeImage(news.image);
+      await prisma.news.delete({
+        where: {
+          id: Number(id),
+        },
+      });
+
+      return res
+        .status(200)
+        .json({ status: "success", message: "News deleted successfully!" });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: "Something went wrong.Please try again.",
+      });
     }
   }
 }
