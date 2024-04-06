@@ -4,6 +4,8 @@ import fileUpload from "express-fileupload";
 import cors from "cors";
 import helmet from "helmet";
 
+import { limiter } from "./config/ratelimiter.js";
+
 const app = express();
 const PORT = process.env.PORT || 8000;
 
@@ -14,6 +16,8 @@ app.use(express.static("public")); //serve image and data
 app.use(fileUpload());
 app.use(helmet()); //for secure http headers
 app.use(cors());
+
+app.use(limiter); //for rate limit
 
 app.get("/", (req, res) => {
   return res.json({ message: "Hello, Its Working.." });
