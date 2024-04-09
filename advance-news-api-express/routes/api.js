@@ -22,4 +22,7 @@ router.get("/news/:id", authMiddleware, NewsController.show);
 router.patch("/news/:id", authMiddleware, NewsController.update);
 router.delete("/news/:id", authMiddleware, NewsController.destroy);
 
+//& TEST APIS
+router.get("/send-email", AuthController.sendTestEmail);
+
 export default router;

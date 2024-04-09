@@ -1,3 +1,4 @@
+import { sendEmail } from "../config/mailer.js";
 import prisma from "../DB/db.config.js";
 import { loginSchema, registerSchema } from "../validations/authValidation.js";
 import bycrypt from "bcrypt";
@@ -119,6 +120,26 @@ class AuthController {
         status: "failed",
         message: "Something went wrong please try again",
       });
+    }
+  }
+
+  static async sendTestEmail(req, res) {
+    try {
+      const { email } = req.query;
+      const payload = {
+        toEmail: email,
+        subject: "This is a test email subject",
+        body: "<h1>This is a test email body</h1>",
+      };
+
+      await sendEmail(payload.toEmail, payload.subject, payload.body);
+
+      return res.status(200).json({ status: "success", message: "Email Sent" });
+    } catch (error) {
+      console.error({ type: "Email Error", body: error });
+      return res
+        .status(500)
+        .json({ status: "failed", message: "Something Went Wrong." });
     }
   }
 }
