@@ -5,6 +5,7 @@ import cors from "cors";
 import helmet from "helmet";
 
 import { limiter } from "./config/ratelimiter.js";
+import "./jobs/index.js";
 
 const app = express();
 const PORT = process.env.PORT || 8000;
