@@ -7,6 +7,7 @@ import {
 import { newsSchema } from "../validations/newsValidation.js";
 import prisma from "../DB/db.config.js";
 import NewsApiTransform from "../transform/newsApiTransform.js";
+import redisCache from "../DB/redis.config.js";
 
 class NewsController {
   static async index(req, res) {
@@ -100,6 +101,13 @@ class NewsController {
             content: data.content,
             image: newImageName,
           },
+        });
+
+        // remove cache
+        redisCache.del("/api/news", (err) => {
+          if (err) {
+            throw err;
+          }
         });
 
         return res.status(200).json({
