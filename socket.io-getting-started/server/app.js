@@ -16,6 +16,30 @@ const io = new Server(server, {
 });
 io.on("connection", (socket) => {
   console.log("User Connected", socket.id);
+  // # this will send to all of the who are connected - all
+  // socket.emit("welcome", `Welcome to Socket Backend ${socket.id}`);
+
+  // # this will send to all of the who are connected without who sent - all but who socketted
+  // socket.broadcast.emit("welcome", `${socket.id} - joined the server`);
+
+  // this will send data to perticular room
+  socket.on("message", ({ room, message }) => {
+    console.log({ room, message });
+    socket.to(room).emit("receive-message", message);
+  });
+
+  socket.on("join-room", (room) => {
+    socket.join(room);
+    console.log(`User joined room ${room}`);
+  });
+
+  // socket.on("message", (data) => {
+  //   console.log(data);
+  // });
+
+  socket.on("disconnect", () => {
+    console.log("User Disconected ", socket.id);
+  });
 });
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
