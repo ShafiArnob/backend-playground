@@ -1,1 +1,5 @@
-Video: 21:28
+## Alembic
+
+```
+> alembic init -t async migrations
+```
