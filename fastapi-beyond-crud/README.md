@@ -1,3 +1,10 @@
+## FastAPI
+
+```
+// RUN
+> fastapi run ./src
+```
+
 ## Alembic
 
 ```
