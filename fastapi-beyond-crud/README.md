@@ -3,6 +3,9 @@
 ```
 // RUN
 > fastapi run ./src
+
+// Run dev mode
+fastapi dev ./src
 ```
 
 ## Alembic
