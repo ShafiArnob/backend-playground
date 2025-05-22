@@ -23,7 +23,11 @@
 // Create migrations
 > alembic revision --autogenerate -m "init"
 
+// update tables
+alembic revision --autogenerate -m "<message>"
+
 // Apply migration
 // note: sometimes migration throws error you can alter the version then migrate again
 > alembic upgrade head
+
 ```
