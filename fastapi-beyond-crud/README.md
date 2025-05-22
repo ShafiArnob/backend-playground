@@ -1,3 +1,9 @@
+## Activate Python
+
+```
+> venv\Scripts\activate.bat
+```
+
 ## FastAPI
 
 ```
@@ -5,7 +11,7 @@
 > fastapi run ./src
 
 // Run dev mode
-fastapi dev ./src
+> fastapi dev ./src
 ```
 
 ## Alembic
