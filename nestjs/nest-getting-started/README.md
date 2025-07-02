@@ -40,3 +40,10 @@ $ npx prisma init
 $ npx prisma migrate dev
 $ npx prisma generate # generate typescript types
 ```
+
+## Nest CLI
+
+```bash
+$ nest g module <module_name> # create modules
+$ nest g service <module_name> --no-spec
+```
