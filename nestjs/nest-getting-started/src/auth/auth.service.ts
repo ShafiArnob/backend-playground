@@ -7,6 +7,6 @@ export class AuthService {
   }
 
   signin() {
-    return { msg: 'I am signed in' };
+    return { msg: 'I am signed In' };
   }
 }

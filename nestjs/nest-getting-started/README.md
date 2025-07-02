@@ -29,3 +29,14 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Prisma
+
+```bash
+
+$ npm install prisma --save-dev
+$ npx prisma init
+
+$ npx prisma migrate dev
+$ npx prisma generate # generate typescript types
+```
